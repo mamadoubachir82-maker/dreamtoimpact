@@ -1,0 +1,9 @@
+{
+  "name": "africa-marche-connect",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
+    "@netlify/functions": "^6.1.1"
+  }
+}

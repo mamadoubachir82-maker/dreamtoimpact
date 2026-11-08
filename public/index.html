@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Africa Marché Connect — Du champ au marché</title>
+  <meta name="description" content="Africa Marché Connect relie les producteurs agricoles africains aux acheteurs : offres, prix, conseils et assistant IA." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --indigo: #1d2a4a;
+      --indigo-deep: #121a30;
+      --ocre: #d9922e;
+      --terre: #b4502f;
+      --mil: #f4ead7;
+      --sable: #faf5ea;
+      --feuille: #3f6b3a;
+      --encre: #1c1a17;
+      --gris: #6b645a;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Work Sans", system-ui, sans-serif;
+      color: var(--encre);
+      background: var(--sable);
+      line-height: 1.55;
+    }
+    h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.1; margin: 0 0 .5em; }
+    a { color: inherit; }
+    .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+
+    /* Motif inspiré des tissages : bande de triangles */
+    .bande {
+      height: 14px;
+      background:
+        linear-gradient(135deg, var(--ocre) 25%, transparent 25%) -7px 0/14px 14px,
+        linear-gradient(225deg, var(--terre) 25%, transparent 25%) -7px 0/14px 14px,
+        var(--indigo);
+    }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--indigo);
+      color: var(--mil);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
+    .logo { display: flex; align-items: center; gap: .6rem; font-family: "Fraunces", serif; font-weight: 900; font-size: 1.2rem; letter-spacing: .01em; text-decoration: none; }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: conic-gradient(var(--ocre) 0 25%, var(--terre) 0 50%, var(--feuille) 0 75%, var(--mil) 0);
+      border: 3px solid var(--mil);
+    }
+    nav[role="tablist"] { display: flex; gap: .25rem; flex-wrap: wrap; }
+    .tab {
+      background: none; border: 0; color: var(--mil); cursor: pointer;
+      font: 500 .95rem "Work Sans", sans-serif;
+      padding: .5rem .85rem; border-radius: 999px;
+    }
+    .tab:hover { background: rgba(244,234,215,.12); }
+    .tab[aria-selected="true"] { background: var(--ocre); color: var(--indigo-deep); font-weight: 600; }
+    .tab:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--ocre); outline-offset: 2px; }
+
+    section[role="tabpanel"] { padding: 3.5rem 0 4.5rem; }
+    section[hidden] { display: none; }
+
+    /* Accueil */
+    .hero {
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 3rem; align-items: center;
+    }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; font-weight: 600; color: var(--terre); }
+    .hero h1 { font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 900; color: var(--indigo); }
+    .hero h1 em { font-style: italic; color: var(--terre); }
+    .hero p.lead { font-size: 1.15rem; max-width: 34em; color: #3a352e; }
+    .actions { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 2px solid var(--indigo); border-radius: 999px;
+      padding: .75rem 1.3rem; font: 600 1rem "Work Sans", sans-serif;
+      cursor: pointer; text-decoration: none;
+      background: var(--indigo); color: var(--mil);
+      transition: transform .15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.alt { background: transparent; color: var(--indigo); }
+    .panier {
+      aspect-ratio: 1; border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, var(--mil) 0 22%, transparent 22.5%),
+        repeating-conic-gradient(var(--ocre) 0 10deg, var(--terre) 10deg 20deg, var(--indigo) 20deg 30deg, var(--mil) 30deg 40deg);
+      box-shadow: inset 0 0 0 14px var(--indigo), 0 30px 60px -30px rgba(29,42,74,.6);
+      display: grid; place-items: center; position: relative;
+    }
+    .panier span {
+      font-family: "Fraunces", serif; font-weight: 900; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--indigo);
+    }
+    .piliers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 4rem; }
+    .pilier { background: #fff; border-radius: var(--radius); padding: 1.5rem; border-top: 6px solid var(--ocre); }
+    .pilier:nth-child(2) { border-color: var(--terre); }
+    .pilier:nth-child(3) { border-color: var(--feuille); }
+    .pilier h3 { font-size: 1.3rem; color: var(--indigo); }
+    .pilier p { margin: 0; color: var(--gris); }
+    .etapes { margin-top: 4rem; background: var(--indigo); color: var(--mil); border-radius: calc(var(--radius) * 1.5); padding: 2.5rem; }
+    .etapes h2 { font-size: 2rem; }
+    .etapes ol { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; counter-reset: e; }
+    .etapes li { counter-increment: e; }
+    .etapes li::before { content: counter(e); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--ocre); color: var(--indigo-deep); font: 900 1.3rem "Fraunces", serif; margin-bottom: .7rem; }
+    .etapes strong { display: block; font-size: 1.05rem; }
+
+    /* Marché */
+    .titre-section { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .titre-section h2 { font-size: clamp(2rem, 4vw, 2.8rem); color: var(--indigo); margin: 0; }
+    .note { font-size: .88rem; color: var(--gris); }
+    .filtres { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .filtres input, .filtres select, .chat-form input {
+      font: 1rem "Work Sans", sans-serif; padding: .7rem 1rem; border-radius: 999px;
+      border: 2px solid #d8cdb6; background: #fff; color: var(--encre);
+    }
+    .filtres input { flex: 1 1 220px; }
+    .offres { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+    .offre { background: #fff; border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: .35rem; border: 1px solid #eadfca; }
+    .offre .cat { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--feuille); }
+    .offre h3 { font-size: 1.35rem; margin: 0; color: var(--indigo); }
+    .offre .prix { font: 700 1.2rem "Fraunces", serif; color: var(--terre); margin-top: auto; padding-top: .5rem; }
+    .offre .meta { font-size: .9rem; color: var(--gris); }
+    .vide { color: var(--gris); padding: 2rem 0; }
+
+    /* Information / assistant */
+    .info-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: start; }
+    .chat { background: #fff; border-radius: calc(var(--radius) * 1.5); border: 1px solid #eadfca; overflow: hidden; display: flex; flex-direction: column; min-height: 520px; }
+    .chat-head { background: var(--indigo); color: var(--mil); padding: 1rem 1.25rem; display: flex; align-items: center; gap: .75rem; }
+    .chat-head .logo-mark { width: 30px; height: 30px; border-width: 2px; }
+    .chat-head strong { font-family: "Fraunces", serif; font-size: 1.1rem; }
+    .chat-head small { display: block; opacity: .75; }
+    .messages { flex: 1; padding: 1.25rem; display: flex; flex-direction: column; gap: .8rem; overflow-y: auto; max-height: 460px; }
+    .msg { max-width: 85%; padding: .75rem 1rem; border-radius: 16px; white-space: pre-wrap; }
+    .msg.bot { background: var(--mil); border-bottom-left-radius: 4px; align-self: flex-start; }
+    .msg.moi { background: var(--indigo); color: var(--mil); border-bottom-right-radius: 4px; align-self: flex-end; }
+    .msg .source { display: block; margin-top: .4rem; font-size: .75rem; color: var(--gris); }
+    .msg.attente { color: var(--gris); font-style: italic; }
+    .suggestions { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1.25rem 1rem; }
+    .suggestions button { background: var(--sable); border: 1px solid #d8cdb6; border-radius: 999px; padding: .4rem .8rem; cursor: pointer; font: .88rem "Work Sans", sans-serif; color: var(--indigo); }
+    .suggestions button:hover { border-color: var(--ocre); }
+    .chat-form { display: flex; gap: .5rem; padding: 1rem 1.25rem; border-top: 1px solid #eadfca; }
+    .chat-form input { flex: 1; }
+    .faq h3 { font-size: 1.5rem; color: var(--indigo); }
+    .faq details { background: #fff; border-radius: var(--radius); padding: .9rem 1.1rem; margin-bottom: .6rem; border: 1px solid #eadfca; }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--indigo); }
+    .faq details p { margin: .6rem 0 0; color: #3a352e; }
+
+    /* Rejoindre */
+    .rejoindre { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .carte { border-radius: calc(var(--radius) * 1.5); padding: 2rem; }
+    .carte.prod { background: var(--feuille); color: var(--mil); }
+    .carte.ach { background: var(--ocre); color: var(--indigo-deep); }
+    .carte h3 { font-size: 1.8rem; }
+    .carte ul { padding-left: 1.1rem; margin: 0; }
+    .carte li { margin-bottom: .4rem; }
+
+    footer { background: var(--indigo-deep); color: rgba(244,234,215,.75); padding: 2rem 0; font-size: .9rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+    @media (max-width: 860px) {
+      .hero, .info-grid, .rejoindre { grid-template-columns: 1fr; }
+      .panier { max-width: 260px; margin: 0 auto; }
+      .piliers, .etapes ol { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+      section[role="tabpanel"] { padding: 2.5rem 0 3.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#accueil" data-goto="accueil"><span class="logo-mark" aria-hidden="true"></span>Africa Marché Connect</a>
+      <nav role="tablist" aria-label="Sections du site">
+        <button class="tab" role="tab" id="t-accueil" aria-controls="accueil" aria-selected="true">Accueil</button>
+        <button class="tab" role="tab" id="t-marche" aria-controls="marche" aria-selected="false">Marché</button>
+        <button class="tab" role="tab" id="t-information" aria-controls="information" aria-selected="false">Information</button>
+        <button class="tab" role="tab" id="t-rejoindre" aria-controls="rejoindre" aria-selected="false">Rejoindre</button>
+      </nav>
+    </div>
+    <div class="bande" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <!-- ACCUEIL -->
+    <section id="accueil" role="tabpanel" aria-labelledby="t-accueil">
+      <div class="wrap">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Du champ au marché</p>
+            <h1>Vendre ses récoltes, <em>sans intermédiaire</em> inutile.</h1>
+            <p class="lead">Africa Marché Connect relie les producteurs, coopératives et groupements de femmes aux commerçants, transformateurs et familles. Des offres claires, des prix visibles et des conseils pour moins de pertes.</p>
+            <div class="actions">
+              <button class="btn" data-goto="marche">Voir le marché</button>
+              <button class="btn alt" data-goto="information">Poser une question</button>
+            </div>
+          </div>
+          <div class="panier" aria-hidden="true"><span>AMC</span></div>
+        </div>
+
+        <div class="piliers">
+          <article class="pilier">
+            <h3>Place de marché</h3>
+            <p>Le producteur publie son offre : produit, quantité, prix et lieu. L'acheteur le contacte directement.</p>
+          </article>
+          <article class="pilier">
+            <h3>Prix transparents</h3>
+            <p>Des repères de prix pour négocier juste, selon la saison et la région.</p>
+          </article>
+          <article class="pilier">
+            <h3>Conseils pratiques</h3>
+            <p>Séchage, stockage, conditionnement : un assistant répond aux questions, à toute heure.</p>
+          </article>
+        </div>
+
+        <div class="etapes">
+          <h2>Comment ça marche</h2>
+          <ol>
+            <li><strong>Publier</strong>Le producteur décrit sa récolte et fixe son prix.</li>
+            <li><strong>Trouver</strong>L'acheteur cherche par produit ou par région.</li>
+            <li><strong>Échanger</strong>Ils se contactent directement, sans commission sur l'échange.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARCHÉ -->
+    <section id="marche" role="tabpanel" aria-labelledby="t-marche" hidden>
+      <div class="wrap">
+        <div class="titre-section">
+          <h2>Le marché</h2>
+          <p class="note">Exemples d'offres pour la démonstration. Prix indicatifs en FCFA.</p>
+        </div>
+        <div class="filtres">
+          <input id="recherche" type="search" placeholder="Rechercher un produit ou une ville…" aria-label="Rechercher un produit ou une ville" />
+          <select id="categorie" aria-label="Catégorie">
+            <option value="">Toutes les catégories</option>
+            <option>Céréales</option>
+            <option>Légumineuses</option>
+            <option>Tubercules</option>
+            <option>Légumes</option>
+            <option>Fruits</option>
+            <option>Oléagineux</option>
+          </select>
+        </div>
+        <div class="offres" id="offres"></div>
+      </div>
+    </section>
+
+    <!-- INFORMATION -->
+    <section id="information" role="tabpanel" aria-labelledby="t-information" hidden>
+      <div class="wrap">
+        <div class="titre-section">
+          <h2>Information</h2>
+          <p class="note">Posez votre question : séchage, stockage, prix, vente…</p>
+        </div>
+        <div class="info-grid">
+          <div class="chat">
+            <div class="chat-head">
+              <span class="logo-mark" aria-hidden="true"></span>
+              <div><strong>Assistant AMC</strong><small>Réponses en français, simples et pratiques</small></div>
+            </div>
+            <div class="messages" id="messages" aria-live="polite">
+              <div class="msg bot">Bonjour ! Je suis l'assistant d'Africa Marché Connect. Posez-moi une question sur vos récoltes, leur conservation ou leur vente.</div>
+            </div>
+            <div class="suggestions">
+              <button type="button">Comment sécher le maïs ?</button>
+              <button type="button">Comment stocker l'oignon ?</button>
+              <button type="button">Comment vendre sur AMC ?</button>
+            </div>
+            <form class="chat-form" id="chat-form">
+              <input id="question" name="question" type="text" autocomplete="off" maxlength="1000" placeholder="Votre question…" aria-label="Votre question" required />
+              <button class="btn" type="submit">Envoyer</button>
+            </form>
+          </div>
+
+          <div class="faq">
+            <h3>Questions fréquentes</h3>
+            <div id="faq"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REJOINDRE -->
+    <section id="rejoindre" role="tabpanel" aria-labelledby="t-rejoindre" hidden>
+      <div class="wrap">
+        <div class="titre-section"><h2>Rejoindre AMC</h2></div>
+        <div class="rejoindre">
+          <div class="carte prod">
+            <h3>Vous produisez</h3>
+            <ul>
+              <li>Publiez vos récoltes avec la quantité et le prix.</li>
+              <li>Soyez visible auprès d'acheteurs de toute la région.</li>
+              <li>Recevez des conseils pour réduire les pertes.</li>
+              <li>Gardez la totalité du prix de vente.</li>
+            </ul>
+          </div>
+          <div class="carte ach">
+            <h3>Vous achetez</h3>
+            <ul>
+              <li>Trouvez des produits frais et locaux par région.</li>
+              <li>Comparez les offres et les prix.</li>
+              <li>Contactez directement le producteur.</li>
+              <li>Organisez le transport avec des transporteurs partenaires.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="bande" aria-hidden="true"></div>
+  <footer>
+    <div class="wrap">
+      <span>© <span id="annee"></span> Africa Marché Connect</span>
+      <span>Du champ au marché, en Afrique.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- Onglets ----------
+    const tabs = [...document.querySelectorAll('.tab')];
+    function ouvrir(id, pushHash = true) {
+      tabs.forEach(t => {
+        const actif = t.getAttribute('aria-controls') === id;
+        t.setAttribute('aria-selected', actif);
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !actif;
+      });
+      if (pushHash) history.replaceState(null, '', '#' + id);
+      window.scrollTo({ top: 0 });
+    }
+    tabs.forEach(t => t.addEventListener('click', () => ouvrir(t.getAttribute('aria-controls'))));
+    document.querySelectorAll('[data-goto]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); ouvrir(el.dataset.goto); }));
+    const depart = location.hash.slice(1);
+    if (tabs.some(t => t.getAttribute('aria-controls') === depart)) ouvrir(depart, false);
+    document.getElementById('annee').textContent = new Date().getFullYear();
+
+    // ---------- Marché (exemples) ----------
+    const OFFRES = [
+      { produit: 'Maïs blanc séché', cat: 'Céréales', qte: '2 tonnes', lieu: 'Région de Kayes', prix: '220 / kg' },
+      { produit: 'Mil', cat: 'Céréales', qte: '800 kg', lieu: 'Thiès', prix: '275 / kg' },
+      { produit: 'Fonio décortiqué', cat: 'Céréales', qte: '300 kg', lieu: 'Labé', prix: '900 / kg' },
+      { produit: 'Niébé', cat: 'Légumineuses', qte: '500 kg', lieu: 'Maradi', prix: '450 / kg' },
+      { produit: 'Arachide coque', cat: 'Oléagineux', qte: '1,5 tonne', lieu: 'Kaolack', prix: '300 / kg' },
+      { produit: 'Karité (amandes)', cat: 'Oléagineux', qte: '600 kg', lieu: 'Bobo-Dioulasso', prix: '250 / kg' },
+      { produit: 'Manioc frais', cat: 'Tubercules', qte: '1 tonne', lieu: 'Bouaké', prix: '120 / kg' },
+      { produit: 'Igname', cat: 'Tubercules', qte: '700 kg', lieu: 'Parakou', prix: '350 / kg' },
+      { produit: 'Oignon violet', cat: 'Légumes', qte: '40 sacs de 25 kg', lieu: 'Vallée du fleuve', prix: '8 000 / sac' },
+      { produit: 'Tomate', cat: 'Légumes', qte: '60 caisses', lieu: 'Niayes', prix: '6 500 / caisse' },
+      { produit: 'Mangue Kent', cat: 'Fruits', qte: '3 tonnes', lieu: 'Sikasso', prix: '150 / kg' },
+      { produit: 'Anacarde brute', cat: 'Fruits', qte: '5 tonnes', lieu: 'Korhogo', prix: '400 / kg' },
+    ];
+    const zone = document.getElementById('offres');
+    const recherche = document.getElementById('recherche');
+    const categorie = document.getElementById('categorie');
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    function afficherOffres() {
+      const q = norm(recherche.value.trim());
+      const c = categorie.value;
+      const liste = OFFRES.filter(o => (!c || o.cat === c) && (!q || norm(o.produit + ' ' + o.lieu).includes(q)));
+      zone.innerHTML = '';
+      if (!liste.length) { zone.innerHTML = '<p class="vide">Aucune offre ne correspond à votre recherche.</p>'; return; }
+      for (const o of liste) {
+        const el = document.createElement('article');
+        el.className = 'offre';
+        el.innerHTML = `<span class="cat"></span><h3></h3><span class="meta"></span><span class="meta"></span><span class="prix"></span>`;
+        const [cat, h3, m1, m2, prix] = el.children;
+        cat.textContent = o.cat; h3.textContent = o.produit;
+        m1.textContent = 'Quantité : ' + o.qte; m2.textContent = 'Lieu : ' + o.lieu;
+        prix.textContent = o.prix + ' FCFA';
+        zone.appendChild(el);
+      }
+    }
+    recherche.addEventListener('input', afficherOffres);
+    categorie.addEventListener('change', afficherOffres);
+    afficherOffres();
+
+    // ---------- FAQ intégrée (secours de l'assistant) ----------
+    const FAQ = [
+      { q: 'Comment sécher le maïs ?', mots: ['secher', 'sechage', 'mais'],
+        r: "Récoltez quand les grains sont durs et que les spathes sont sèches. Étalez les épis ou les grains en couche fine sur une bâche ou une aire propre, au soleil, jamais à même le sol. Retournez plusieurs fois par jour et couvrez la nuit ou en cas de pluie. Le maïs est prêt quand le grain casse net sous la dent et fait un bruit sec (environ 13 % d'humidité). Stockez ensuite en sacs propres, sur palettes, dans un local aéré." },
+      { q: "Comment stocker l'oignon ?", mots: ['oignon', 'stocker', 'stockage'],
+        r: "Laissez sécher les oignons 1 à 2 semaines à l'ombre après la récolte, jusqu'à ce que le collet soit sec. Triez et retirez les bulbes abîmés. Conservez en couches minces sur des claies ou en sacs filets, dans un local sec, sombre et bien ventilé. Contrôlez chaque semaine et retirez les bulbes qui pourrissent." },
+      { q: 'Comment vendre sur AMC ?', mots: ['vendre', 'publier', 'offre', 'inscrire', 'vente'],
+        r: "Publiez une offre avec le produit, la quantité, le prix et le lieu. Les acheteurs consultent le marché et vous contactent directement. AMC ne prend pas de commission sur les échanges directs." },
+      { q: 'Comment acheter ?', mots: ['acheter', 'achat', 'acheteur', 'trouver'],
+        r: "Ouvrez l'onglet Marché, cherchez par produit ou par ville, puis contactez le producteur. Pour le transport, AMC peut vous mettre en relation avec des transporteurs." },
+      { q: 'Comment fixer un bon prix ?', mots: ['prix', 'tarif', 'cout', 'combien'],
+        r: "Comparez les offres du marché pour le même produit et la même région. Tenez compte de la qualité (séchage, tri), du conditionnement et du transport. Les prix changent selon la saison : ils montent souvent juste avant la nouvelle récolte." },
+      { q: 'Comment réduire les pertes après récolte ?', mots: ['perte', 'pertes', 'conserver', 'conservation', 'insecte', 'charancon'],
+        r: "Séchez bien avant de stocker, triez les produits abîmés, utilisez des sacs propres (les sacs hermétiques protègent des insectes), surélevez les sacs du sol et aérez le magasin. Vendez vite les produits frais ou transformez-les (séchage, farine, jus)." },
+      { q: 'Combien coûte AMC ?', mots: ['gratuit', 'commission', 'payer', 'frais'],
+        r: "La consultation du marché et des conseils est libre. AMC ne prend pas de commission sur les échanges directs entre producteur et acheteur." },
+    ];
+    const faqZone = document.getElementById('faq');
+    FAQ.forEach(f => {
+      const d = document.createElement('details');
+      const s = document.createElement('summary'); s.textContent = f.q;
+      const p = document.createElement('p'); p.textContent = f.r;
+      d.append(s, p); faqZone.appendChild(d);
+    });
+    function reponseFAQ(question) {
+      const q = norm(question);
+      let meilleure = null, score = 0;
+      for (const f of FAQ) {
+        const s = f.mots.filter(m => q.includes(m)).length;
+        if (s > score) { score = s; meilleure = f; }
+      }
+      return meilleure ? meilleure.r
+        : "Je n'ai pas de réponse précise à cette question pour le moment. Consultez les questions fréquentes ou reformulez votre question.";
+    }
+
+    // ---------- Assistant ----------
+    const messages = document.getElementById('messages');
+    const form = document.getElementById('chat-form');
+    const champ = document.getElementById('question');
+    function ajouter(texte, classe, source) {
+      const el = document.createElement('div');
+      el.className = 'msg ' + classe;
+      el.textContent = texte;
+      if (source) { const s = document.createElement('span'); s.className = 'source'; s.textContent = source; el.appendChild(s); }
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+      return el;
+    }
+    async function demander(question) {
+      ajouter(question, 'moi');
+      const attente = ajouter('Je réfléchis…', 'bot attente');
+      let texte, source;
+      try {
+        const ctrl = new AbortController();
+        const minuteur = setTimeout(() => ctrl.abort(), 30000);
+        const res = await fetch('/api/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+          signal: ctrl.signal,
+        });
+        clearTimeout(minuteur);
+        const data = await res.json();
+        if (!res.ok || !data.answer) throw new Error('indisponible');
+        texte = data.answer;
+      } catch {
+        texte = reponseFAQ(question);
+        source = 'Réponse de la FAQ intégrée';
+      }
+      attente.remove();
+      ajouter(texte, 'bot', source);
+    }
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = champ.value.trim();
+      if (!q) return;
+      champ.value = '';
+      demander(q);
+    });
+    document.querySelectorAll('.suggestions button').forEach(b => b.addEventListener('click', () => demander(b.textContent)));
+  </script>
+</body>
+</html>
